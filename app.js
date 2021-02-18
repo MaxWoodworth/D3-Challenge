@@ -25,9 +25,9 @@ var chartGroup = svg.append("g")
 //Get data from csv
 d3.csv("data.csv").then(function (data){
     //parse
-    data.forEach(function (data){
-        data.age = +data.age;
-        data.obesity = +data.obesity;   
+    data.forEach(function (scatterdata){
+        scatterdata.age = +scatterdata.age;
+        scatterdata.obesity = +scatterdata.obesity;   
     });
     
     //Scale Function using xlinearscale
@@ -48,11 +48,12 @@ d3.csv("data.csv").then(function (data){
     
     //apend both axis
     chartGroup.append("g")
-    .attr("transform", `translate(0, ${h})`)
-    .call(bottomaxis);
+        .attr("transform", `translate(0, ${h})`)
+        .call(bottomaxis);
+    
     chartGroup.append("g")
-    .call(leftaxis);
-
+        .call(leftaxis)
+    
     //Create data points for chart
     var circlesGroup = chartGroup.selectAll("circle")
     .data(data)
@@ -78,7 +79,7 @@ d3.csv("data.csv").then(function (data){
     //Sets up obesity label and gives value for listener
     var obesitylabel = labels.append("text")
         .attr("transform", "rotate(-90)")
-        .attr("y", 0 - margin.left)
+        .attr("y", 0 - margin.left + 40)
         .attr("x", 0 - (h / 2))
         .classed("axis-text", true)
         .text("% Obese");
