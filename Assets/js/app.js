@@ -20,7 +20,7 @@ var svg = d3.select("#scatter")
     .attr("w", svgWidth);
 
 var chartGroup = svg.append("g")
-    .attr("transofrm", 'translate(${margin.left}, ${margin.top})');
+    .attr("transofrm", `translate(${margin.left}, ${margin.top})`);
 
 //Get data from csv
 d3.csv("data.csv").then(function (data){
@@ -48,7 +48,7 @@ d3.csv("data.csv").then(function (data){
     
     //apend both axis
     chartGroup.append("g")
-    .attr("transform", 'translate(0, ${height})')
+    .attr("transform", `translate(0, ${height})`)
     .call(bottomaxis);
     chartGroup.append("g")
     .call(leftaxis);
@@ -65,6 +65,22 @@ d3.csv("data.csv").then(function (data){
     .attr("opacity", ".5");
 
     //Declare labels
-    //var labels = chartGroup.append("g")
-       // .attr("transform", 'translate')
+    var labels = chartGroup.append("g")
+        .attr("transform", `translate(${w / 2}, ${h + 15})`);
+    //Sets up age label and gives value for listener
+    var agelabel = labels.append("text")
+        .attr("x", 0)
+        .attr("y", 50)
+        .attr("value", "age")
+        .classed("active", true)
+        .text("Age");
+    
+    //Sets up obesity label and gives value for listener
+    var obesitylabel = labels.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0 - margin.left)
+        .attr("x", 0 - (h / 2))
+        .classed("axis-text", true)
+        .text("% Obese");
+
 })
