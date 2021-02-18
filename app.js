@@ -33,9 +33,10 @@ d3.csv("data.csv").then(function (data){
     //Scale Function using xlinearscale
     //Did use this for some time https://stackoverflow.com/questions/35953892/d3-scale-linear-vs-d3-scalelinear
     var xLinearScale = d3.scaleLinear()
-        .domain([0, d3.max(
-            data, d => d.age)])
-            .range([w]);
+        .domain([30, d3.max(data, d => d.age)])
+        //KEPT GETTING ANNOYING ERROR 
+        //it was pointing me towardss line 53 when in reality it was a direct result that I had no entered a second valuu (0) after w.
+        .range([w, 0]);
     
             //Scale Function using ylinearscale
     var yLinearScale = d3.scaleLinear()
@@ -101,4 +102,4 @@ d3.csv("data.csv").then(function (data){
         .on("mouseout", function (data, index) {
             tool.hide(data);
         });
-})
+});
