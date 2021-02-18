@@ -1,6 +1,6 @@
 // @TODO: YOUR CODE HERE!
 var svgWidth = 950;
-var svgHeight = 510;
+var svgHeight = 700;
 
 //Set margins
 var margin = {
@@ -35,7 +35,7 @@ d3.csv("data.csv").then(function (data){
     //Scale Function using xlinearscale
     //Did use this for some time https://stackoverflow.com/questions/35953892/d3-scale-linear-vs-d3-scalelinear
     var xLinearScale = d3.scaleLinear()
-        .domain([28, d3.max(data, d => d.age)])
+        .domain([29, d3.max(data, d => d.age)])
         //KEPT GETTING ANNOYING ERROR 
         //it was pointing me towardss line 53 when in reality it was a direct result that I had no entered a second valuu (0) after w.
         .range([0,width]);
@@ -43,7 +43,7 @@ d3.csv("data.csv").then(function (data){
             //Scale Function using ylinearscale
             //had to hard code some of the data by actually looking at it and adding 2 to make a whole point visible
     var yLinearScale = d3.scaleLinear()
-    .domain([0,(d3.max(data, d => d.obesity)+2)])
+    .domain([18,(d3.max(data, d => d.obesity)+2)])
     .range([height, 0]);
     
     //Axis functions with Linear scale
@@ -70,6 +70,7 @@ d3.csv("data.csv").then(function (data){
     .attr("opacity", ".75");
 
     //add labels for the data plots
+    //https://developer.mozilla.org/en-US/docs/Web/HTML/Element/abbr
     var labels = chartGroup.selectAll(null)
     .data(data)
     .enter()
