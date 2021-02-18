@@ -10,14 +10,14 @@ var margin = {
     left: 100,
 };
 
-var w = svgWidth - margin.left - margin.right;
-var h = svgHeight - margin.top - margin.bottom;
+var width = svgWidth - margin.left - margin.right;
+var height = svgHeight - margin.top - margin.bottom;
 
 //define wrapper and then append
 var svg = d3.select("#scatter")
     .append("svg")
-    .attr("h", svgHeight)
-    .attr("w", svgWidth);
+    .attr("width", svgWidth)
+    .attr("height", svgHeight);
 
 var chartGroup = svg.append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
@@ -35,16 +35,16 @@ d3.csv("data.csv").then(function (data){
     //Scale Function using xlinearscale
     //Did use this for some time https://stackoverflow.com/questions/35953892/d3-scale-linear-vs-d3-scalelinear
     var xLinearScale = d3.scaleLinear()
-        .domain([12, d3.max(data, d => d.age)])
+        .domain([28, d3.max(data, d => d.age)])
         //KEPT GETTING ANNOYING ERROR 
         //it was pointing me towardss line 53 when in reality it was a direct result that I had no entered a second valuu (0) after w.
-        .range([w, 0]);
+        .range([0,width]);
     
             //Scale Function using ylinearscale
             //had to hard code some of the data by actually looking at it and adding 2 to make a whole point visible
     var yLinearScale = d3.scaleLinear()
-    .domain([-20,(d3.max(data, d => d.obesity)+2)])
-    .range([h, 0]);
+    .domain([0,(d3.max(data, d => d.obesity)+2)])
+    .range([height, 0]);
     
     //Axis functions with Linear scale
     var bottomaxis = d3.axisBottom(xLinearScale);
@@ -52,7 +52,7 @@ d3.csv("data.csv").then(function (data){
     
     //apend both axis
     chartGroup.append("g")
-        .attr("transform", `translate(0, ${h})`)
+        .attr("transform", `translate(0, ${height})`)
         .call(bottomaxis);
     
     chartGroup.append("g")
@@ -88,10 +88,10 @@ d3.csv("data.csv").then(function (data){
         });
     //Declare labels
     var label = chartGroup.append("g")
-        .attr("transform", `translate(${w / 2}, ${h + 15})`);
+        .attr("transform", `translate(${width / 2}, ${height + 15})`);
     //Sets up age label and gives value for listener
         var agelabel = chartGroup.append("text")
-        .attr("transform", `translate(${w / 2}, ${h + margin.top + 30})`)
+        .attr("transform", `translate(${w / 2}, ${height + margin.top + 30})`)
         //.attr("x", 0 - margin.left + 50)
         //.attr("y", 0 - (height / 2))
         //.attr("value", "age")
@@ -103,7 +103,7 @@ d3.csv("data.csv").then(function (data){
         chartGroup.append("text")
         .attr("transform", "rotate(-90)")
         .attr("y", 0 - margin.left + 40)
-        .attr("x", 0 - (h / 2))
+        .attr("x", 0 - (height / 2))
         .attr("dy", "0em")
         .attr("class", "axisText")
         .text("% Obese");
