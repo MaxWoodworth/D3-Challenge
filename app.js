@@ -67,8 +67,20 @@ d3.csv("data.csv").then(function (data){
     .attr("cy", d => yLinearScale(d.obesity))
     .attr("r", "12")
     .attr("fill", "blue")
-    .attr("opacity", ".5");
-    
+    .attr("opacity", ".75");
+
+    //add labels for the data plots
+    var labels = chartGroup.selectAll(null)
+    .data(data)
+    .enter()
+    .append("text")
+    .text(d => d.abbr)
+    .attr("font-size", 10)
+    .attr("text-anchor", "middle")
+    .attr("x", d => xLinearScale(d.age))
+    .attr("y", d => yLinearScale(d.obesity))
+    .attr("fill", "white")
+    .attr("alignment-baseline", "middle");
      //Sets up tooltip
     //https://www.w3schools.com/bootstrap/bootstrap_ref_js_tooltip.asp
     var tool = d3.tip()
@@ -91,7 +103,7 @@ d3.csv("data.csv").then(function (data){
         .attr("transform", `translate(${width / 2}, ${height + 15})`);
     //Sets up age label and gives value for listener
         var agelabel = chartGroup.append("text")
-        .attr("transform", `translate(${w / 2}, ${height + margin.top + 30})`)
+        .attr("transform", `translate(${width / 2}, ${height + margin.top + 30})`)
         //.attr("x", 0 - margin.left + 50)
         //.attr("y", 0 - (height / 2))
         //.attr("value", "age")
