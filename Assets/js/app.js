@@ -31,6 +31,7 @@ d3.csv("data.csv").then(function (data){
     });
     
     //Scale Function using xlinearscale
+    //Did use this for some time https://stackoverflow.com/questions/35953892/d3-scale-linear-vs-d3-scalelinear
     var xLinearScale = d3.scaleLinear()
         .domain([0, d3.max(
             data, d => d.age)])
@@ -52,4 +53,18 @@ d3.csv("data.csv").then(function (data){
     chartGroup.append("g")
     .call(leftaxis);
 
+    //Create data points for chart
+    var circlesGroup = chartGroup.selectAll("circle")
+    .data(obage)
+    .enter()
+    .append("circle")
+    .attr("cx", d => xLinearScale(d.age))
+    .attr("cy", d => yLinearScale(d.obesity))
+    .attr("r", "12")
+    .attr("fill", "blue")
+    .attr("opacity", ".5");
+
+    //Declare labels
+    //var labels = chartGroup.append("g")
+       // .attr("transform", 'translate')
 })
