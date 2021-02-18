@@ -25,7 +25,7 @@ var chartGroup = svg.append("g")
 //Get data from csv
 d3.csv("data.csv").then(function (data){
     //parse
-    obage.forEach(function (data){
+    data.forEach(function (data){
         data.age = +data.age;
         data.obesity = +data.obesity;   
     });
@@ -40,7 +40,7 @@ d3.csv("data.csv").then(function (data){
             //Scale Function using ylinearscale
     var yLinearScale = d3.scaleLinear()
     .domain([0,d3.max(data, d => d.obesity)])
-    .range([height, 0]);
+    .range([h, 0]);
     
     //Axis functions with Linear scale
     var bottomaxis = d3.axisBottom(xLinearScale);
@@ -48,14 +48,14 @@ d3.csv("data.csv").then(function (data){
     
     //apend both axis
     chartGroup.append("g")
-    .attr("transform", `translate(0, ${height})`)
+    .attr("transform", `translate(0, ${h})`)
     .call(bottomaxis);
     chartGroup.append("g")
     .call(leftaxis);
 
     //Create data points for chart
     var circlesGroup = chartGroup.selectAll("circle")
-    .data(obage)
+    .data(data)
     .enter()
     .append("circle")
     .attr("cx", d => xLinearScale(d.age))
@@ -83,4 +83,21 @@ d3.csv("data.csv").then(function (data){
         .classed("axis-text", true)
         .text("% Obese");
 
+    //Sets up tooltip
+    //https://www.w3schools.com/bootstrap/bootstrap_ref_js_tooltip.asp
+    var tool = d3.tip()
+        .attr("class", "d3-tip")
+        .offset([70, -70])
+        .html(function (d) {
+            return (`${d.state}<br>Age (Median): ${d.age}<br>% Obese: ${d.obesity}`);
+        });
+    chartGroup.call(tool);
+    //Add Listeners
+    circlesGroup.on("mouseover", function (data) {
+        tool.show(data, this)
+            .attr("fill", "green");
+        })
+        .on("mouseout", function (data, index) {
+            tool.hide(data);
+        });
 })
